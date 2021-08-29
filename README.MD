@@ -1,6 +1,6 @@
 # 文件说明
-liteNameTuple: 2个元素x,y的命名元组
-liteOrderDict: 简易OrderDict
+* liteNameTuple: 2个元素x,y的命名元组
+* liteOrderDict: 简易OrderDict
 
 # 原理
 ## Nametuple
