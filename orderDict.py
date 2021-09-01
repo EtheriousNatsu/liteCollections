@@ -2,26 +2,31 @@
 """
 @author: john
 @contact: zhouqiang847@gmail.com
-@file: liteOrderDict.py
+@file: orderDict.py
 @time: 2021/8/28 下午12:43
 @desc:
 """
+from typing import Generator, TypeVar
+
+K = TypeVar('K')
+V = TypeVar('V')
+T = TypeVar('T')
 
 
 class Link:
-    def __init__(self):
+    def __init__(self) -> None:
         self.key = None
         self.prev = None
         self.next = None
 
 
-class LiteOrderDict(dict):
-    def __init__(self):
+class OrderDict(dict):
+    def __init__(self) -> None:
         self.__mapping = {}
         self.__root = root = Link()
         root.next = root.prev = root
 
-    def __setitem__(self, key, value):
+    def __setitem__(self, key: K, value: V) -> None:
         if key not in self:
             self.__mapping[key] = link = Link()
             root = self.__root
@@ -32,7 +37,7 @@ class LiteOrderDict(dict):
 
         super().__setitem__(key, value)
 
-    def __delitem__(self, key):
+    def __delitem__(self, key: K) -> None:
         super().__delitem__(key)
         link = self.__mapping[key]
         link_next = link.next
@@ -45,7 +50,7 @@ class LiteOrderDict(dict):
 
     _marker = object()
 
-    def pop(self, key, default=_marker):
+    def pop(self, key: K, default: T = _marker):
         if key in self:
             result = self[key]
             del self[key]
@@ -54,18 +59,9 @@ class LiteOrderDict(dict):
             raise KeyError(key)
         return default
 
-    def __iter__(self):
+    def __iter__(self) -> Generator[T, None, None]:
         root = self.__root
         curr = root.next
         while curr is not root:
             yield curr.key
             curr = curr.next
-
-
-if __name__ == '__main__':
-    d = LiteOrderDict()
-    d['two'] = 1
-    d['one'] = 2
-
-    for k in d:
-        print(k, d[k])
